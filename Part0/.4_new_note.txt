@@ -1,0 +1,39 @@
+title New Note
+
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+
+note over server: 
+Server accesses Body of the request
+Server adds object in the body to the array notes
+sends redirect in response to /notes
+end note
+
+server->browser: Response HTTP status code 302 /notes
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+
+note over browser: 
+Browser GET a new copy of /notes which has the notes array updated
+end note
+
+server->browser: Response HTML/Text status code 200
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+
+note over browser: 
+Browser GET CSS files to render style
+end note
+
+server->browser: Response Text/CSS status code 200
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+
+note over browser: 
+Browser starts executing JSON code to get JSON data from server
+end note
+
+server->browser: Response Application/Javascript status code 200
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server->browser: Response Application/JSON status code 200
+
+note over browser: 
+Browser executes code to render the webpage
+end note

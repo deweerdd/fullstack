@@ -1,0 +1,11 @@
+title New Note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+server-->browser:  Response: HTML-code status code 201 Created
+
+note over browser:
+Browser Submits a POST to the server.
+Body of POST has a JSON object with {content:"spaaaa", date:"2021-03-20T22:11:26.151Z"}
+Server responds with 201 Created
+Browser then runs JS code retreived earlier to add the new note to page.
+end note
