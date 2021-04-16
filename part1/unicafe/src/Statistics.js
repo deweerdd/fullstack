@@ -1,6 +1,13 @@
 import React from 'react'
 
 const Statistics = ({ clicks }) => {
+    if (clicks.all === 0) {
+        return (
+            <div>
+                No feedback given
+            </div>
+        )
+    }
     return (
         <div>
             <h1>Statistics</h1>
