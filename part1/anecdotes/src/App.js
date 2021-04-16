@@ -11,18 +11,42 @@ const App = () => {
     'Premature optimization is the root of all evil.',
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
   ]
-   
+
   const [selected, setSelected] = useState(0)
+  const [points, setVote] = useState(
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ])
 
   const getRandomIndex = () => {
     const rand = Math.floor(Math.random() * 6)
+
     setSelected(rand)
   }
 
+  const tallyVote = (vote) => {
+    const copy = [...points]
+    copy[vote] += 1
+    setVote(copy)
+  }
+
+  let indexOfHighestPoints = points.indexOf(Math.max(...points))
+
   return (
     <div>
-    <Anecdote anecdotes={anecdotes} selected={selected} />
-    <Button text="next anecdote" handleClick={getRandomIndex} />
+      <h1>Anecdote of the day:</h1>
+      <Anecdote anecdotes={anecdotes} selected={selected} />
+      <div>has {points[selected]} votes</div>
+      <Button text="vote" handleClick={() => tallyVote(selected)} />
+      <Button text="next anecdote" handleClick={getRandomIndex} />
+      <h1>Anecdote with most votes</h1>
+      <Anecdote anecdotes={anecdotes} selected={indexOfHighestPoints} />
+      <div>has {points[indexOfHighestPoints]} votes</div>
     </div>
   )
 }
