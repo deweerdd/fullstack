@@ -1,31 +1,36 @@
 import React from 'react';
 
-const Header = ({ course }) => {
+const Header = () => {
     return (
-        <h1>{course.name}</h1>
+        <h1>Web development curriculum</h1>
     )
 }
 
 const Content = ({ course }) => {
-    return (
-        <div>
-            { course.parts.map(c => <div key={c.id}>{c.name} {c.exercises}</div>)}
-        </div>
-    )
-}
+    var part = course.map(function (c) {
+        return (
+            <div key={c.id}>
+                <h2>{c.name}</h2>
+                {c.parts.map(function (p) {
+                    return (
+                        <div key={p.id}>{p.name} {p.exercises}</div>
+                    )
+                })}
+                <div>Total exercises {c.parts.reduce((sum, t) => sum + t.exercises, 0)}</div>
+            </div>
+        )
+    })
 
-const Total = ({ course }) => {
     return (
-        <div>Total exercises {course.parts.reduce((sum, c) => sum + c.exercises, 0)}</div>
+        <div>{part}</div>
     )
 }
 
 const Course = ({ course }) => {
     return (
         <div>
-            <Header course={course} />
+            <Header />
             <Content course={course} />
-            <Total course={course} />
         </div>
     )
 }
