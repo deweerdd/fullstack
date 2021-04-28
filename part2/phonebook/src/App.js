@@ -3,13 +3,22 @@ import Record from './components/Record'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    {
+      name: 'Arto Hellas',
+      phone: '7753387139'
+    }
   ])
 
   const [newName, setName] = useState('')
 
+  const [newPhone, setPhone] = useState('')
+
   const handlePerson = (event) => {
     setName(event.target.value)
+  }
+
+  const handlePhone = (event) => {
+    setPhone(event.target.value)
   }
 
   const addNewPersons = (event) => {
@@ -21,9 +30,11 @@ const App = () => {
     } else {
       const newPersonObj = {
         name: newName,
+        phone: newPhone,
       }
       setPersons(persons.concat(newPersonObj))
       setName('')
+      setPhone('')
     }
   }
 
@@ -33,6 +44,9 @@ const App = () => {
       <form onSubmit={addNewPersons}>
         <div>
           name: <input value={newName} onChange={handlePerson} />
+        </div>
+        <div>
+          phone: <input value={newPhone} onChange={handlePhone} />
         </div>
         <div>
           <button type="submit">add</button>

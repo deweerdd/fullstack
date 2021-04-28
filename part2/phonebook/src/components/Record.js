@@ -2,7 +2,7 @@ import react from 'react'
 
 const Record = ({ persons }) => {
     return (
-        <div>{persons.name}</div>
+        <div>{persons.name} {persons.phone}</div>
     )
 }
 
