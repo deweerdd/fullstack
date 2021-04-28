@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import Record from './components/Record'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -27,8 +29,13 @@ const App = () => {
     setSearch(event.target.value)
   }
 
+  const result = !newSearch
+    ? persons
+    : persons.filter(p => p.name.toLowerCase().includes(newSearch.toLowerCase())
+    );
+
   const addNewPersons = (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
     if (persons.find(p => p.name === newName)) {
       alert(`${newName} is already in the phonebook`)
@@ -38,6 +45,7 @@ const App = () => {
         name: newName,
         phone: newPhone,
       }
+      console.log(newPersonObj)
       setPersons(persons.concat(newPersonObj))
       setName('')
       setPhone('')
@@ -47,23 +55,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        search: <input onChange={handleSearch} />
-      </div>
-      <form onSubmit={addNewPersons}>
-        <h2>Add Contact:</h2>
-        <div>
-          name: <input value={newName} onChange={handlePerson} />
-        </div>
-        <div>
-          phone: <input value={newPhone} onChange={handlePhone} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter newSearch={newSearch} handleSearch={handleSearch} />
+      <PersonForm onSubmit={addNewPersons} newName={newName} newPhone={newPhone} onPersonChange={handlePerson} onPhoneChange={handlePhone} />
       <h2>Numbers</h2>
-      {persons.map(person =>
+      {result.map(person =>
         <Record key={person.name} persons={person} />
       )}
     </div>
