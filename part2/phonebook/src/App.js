@@ -9,6 +9,8 @@ const App = () => {
     }
   ])
 
+  const [newSearch, setSearch] = useState('')
+
   const [newName, setName] = useState('')
 
   const [newPhone, setPhone] = useState('')
@@ -19,6 +21,10 @@ const App = () => {
 
   const handlePhone = (event) => {
     setPhone(event.target.value)
+  }
+
+  const handleSearch = (event) => {
+    setSearch(event.target.value)
   }
 
   const addNewPersons = (event) => {
@@ -41,7 +47,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+        search: <input onChange={handleSearch} />
+      </div>
       <form onSubmit={addNewPersons}>
+        <h2>Add Contact:</h2>
         <div>
           name: <input value={newName} onChange={handlePerson} />
         </div>
