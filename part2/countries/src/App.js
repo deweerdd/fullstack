@@ -37,6 +37,8 @@ const App = () => {
         result.map(country =>
           <div key={country.name}>
             <h1>{country.name}</h1>
+            <div>Capital: {country.capital}</div>
+            <div>Population: {country.population}</div>
             <h2>languages</h2>
             <ul>
               {country.languages.map((language => <LanguageDisplay key={country.name + language.name} language={language.name} />))}
