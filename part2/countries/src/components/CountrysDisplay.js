@@ -1,6 +1,7 @@
-const CountrysDisplay = ({ result }) => {
+const CountrysDisplay = ({ result, onClick }) => {
     return (
-        <div>{result}</div>
+        <div>{result} <button onClick={onClick}>show</button>
+        </div>
     )
 }
 

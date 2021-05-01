@@ -49,7 +49,7 @@ const App = () => {
     else {
       return (
         result.map(country =>
-          <CountrysDisplay key={country.name} result={country.name} />))
+          <CountrysDisplay key={country.name} result={country.name} onClick={()=>setFilter(country.name)}/>))
     }
   }
 
