@@ -3,6 +3,7 @@ import axios from 'axios'
 import CountrysDisplay from './components/CountrysDisplay'
 import LanguageDisplay from './components/LanguageDisplay'
 import FlagDisplay from './components/FlagDisplay'
+import WeatherDisplay from './components/WeatherDisplay'
 
 const App = () => {
 
@@ -44,12 +45,15 @@ const App = () => {
               {country.languages.map((language => <LanguageDisplay key={country.name + language.name} language={language.name} />))}
             </ul>
             <FlagDisplay flag={country.flag} name={country.name} />
+            <WeatherDisplay capital={country.capital} />
           </div>))
     }
     else {
       return (
         result.map(country =>
-          <CountrysDisplay key={country.name} result={country.name} onClick={()=>setFilter(country.name)}/>))
+          <div key={country.name}>
+            <CountrysDisplay result={country.name} onClick={() => setFilter(country.name)} />
+          </div>))
     }
   }
 
