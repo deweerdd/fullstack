@@ -3,6 +3,7 @@ import Record from './components/Record'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import axios from 'axios'
+import PersonService from './services/Person'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -49,10 +50,13 @@ const App = () => {
         name: newName,
         phone: newPhone,
       }
-      console.log(newPersonObj)
-      setPersons(persons.concat(newPersonObj))
-      setName('')
-      setPhone('')
+      PersonService
+        .createPerson(newPersonObj)
+        .then(returnedNote => {
+          setPersons(persons.concat(returnedNote))
+          setName('')
+          setPhone('')
+        })
     }
   }
 
