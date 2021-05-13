@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Record from './components/Record'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
-import axios from 'axios'
 import PersonService from './services/Person'
 
 const App = () => {
@@ -15,10 +14,10 @@ const App = () => {
   const [newPhone, setPhone] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+    PersonService
+      .getPersons()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
   }, [])
 
@@ -39,6 +38,16 @@ const App = () => {
     : persons.filter(p => p.name.toLowerCase().includes(newSearch.toLowerCase())
     );
 
+  const deletePerson = (id) => {
+    if (window.confirm(`Delete Record ${id}`)) {
+      PersonService.deletePerson(id).then(result => {
+        PersonService.getPersons().then(initialPersons => {
+          setPersons(initialPersons)
+        })
+      })
+    }
+  }
+
   const addNewPersons = (event) => {
     event.preventDefault();
 
@@ -48,7 +57,7 @@ const App = () => {
     } else {
       const newPersonObj = {
         name: newName,
-        phone: newPhone,
+        number: newPhone,
       }
       PersonService
         .createPerson(newPersonObj)
@@ -67,7 +76,7 @@ const App = () => {
       <PersonForm onSubmit={addNewPersons} newName={newName} newPhone={newPhone} onPersonChange={handlePerson} onPhoneChange={handlePhone} />
       <h2>Numbers</h2>
       {result.map(person =>
-        <Record key={person.name} persons={person} />
+        <Record key={person.name} persons={person} deletePerson={() => deletePerson(person.id)} />
       )}
     </div>
   )

@@ -1,8 +1,11 @@
 import React from 'react'
 
-const Record = ({ persons }) => {
+const Record = ({ persons, deletePerson }) => {
     return (
-        <div>{persons.name} {persons.phone}</div>
+        <div>
+            {persons.name} {persons.number}
+            <button onClick={deletePerson}>delete</button>
+        </div>
     )
 }
 
