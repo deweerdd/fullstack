@@ -51,14 +51,25 @@ const App = () => {
   const addNewPersons = (event) => {
     event.preventDefault();
 
+    const newPersonObj = {
+      name: newName,
+      number: newPhone,
+    }
+
     if (persons.find(p => p.name === newName)) {
-      alert(`${newName} is already in the phonebook`)
-      setPersons(persons)
-    } else {
-      const newPersonObj = {
-        name: newName,
-        number: newPhone,
+      if (window.confirm(`${newName} is already in the phonebook, replace the old number?`)) {
+        const newPersonsId = persons.find(p => p.name === newName)
+        PersonService
+          .updatePerson(newPersonObj, newPersonsId.id)
+          .then(response => {
+            PersonService
+              .getPersons()
+              .then(initialPersons => {
+                setPersons(initialPersons)
+              })
+          })
       }
+    } else {
       PersonService
         .createPerson(newPersonObj)
         .then(returnedNote => {
