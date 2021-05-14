@@ -3,6 +3,8 @@ import Record from './components/Record'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import PersonService from './services/Person'
+import './index.css'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -12,6 +14,8 @@ const App = () => {
   const [newName, setName] = useState('')
 
   const [newPhone, setPhone] = useState('')
+
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     PersonService
@@ -61,12 +65,19 @@ const App = () => {
         const newPersonsId = persons.find(p => p.name === newName)
         PersonService
           .updatePerson(newPersonObj, newPersonsId.id)
-          .then(response => {
+          .then(() => {
             PersonService
               .getPersons()
               .then(initialPersons => {
-                setPersons(initialPersons)
+                setPersons(initialPersons);
+                setName('')
+                setPhone('')
+                setMessage(`Updated number for ${newName}`);
+                setTimeout(() => { setMessage(null) }, 5000);
               })
+          }).catch(error => {
+            setMessage(`Error: ${newName} already Deleted`)
+            setTimeout(() => { setMessage(null) }, 5000);
           })
       }
     } else {
@@ -76,6 +87,9 @@ const App = () => {
           setPersons(persons.concat(returnedNote))
           setName('')
           setPhone('')
+        }).then(() => {
+          setMessage(`Added ${newName} to the phonebook`);
+          setTimeout(() => { setMessage(null) }, 5000);
         })
     }
   }
@@ -83,6 +97,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter newSearch={newSearch} handleSearch={handleSearch} />
       <PersonForm onSubmit={addNewPersons} newName={newName} newPhone={newPhone} onPersonChange={handlePerson} onPhoneChange={handlePhone} />
       <h2>Numbers</h2>

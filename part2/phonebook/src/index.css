@@ -1,0 +1,27 @@
+.Notification {
+    border-style: solid;
+    color:green;
+    border-color: green;
+    border-width: 5px;
+    font-weight: bold;
+    border-radius:5px;
+    background-color:lightgrey;
+    padding: 10px;
+    margin-bottom: 5px;
+    width: 300px;
+    font-size: 24px;
+}
+
+.Error {
+    border-style: solid;
+    color:red;
+    border-color: red;
+    border-width: 5px;
+    font-weight: bold;
+    border-radius:5px;
+    background-color:lightgrey;
+    padding: 10px;
+    margin-bottom: 5px;
+    width: 300px;
+    font-size: 24px;
+}

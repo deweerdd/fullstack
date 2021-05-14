@@ -1,29 +1,14 @@
 {
   "persons": [
     {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": 4
-    },
-    {
-      "name": "Dumbo",
-      "number": "91293123",
-      "id": 5
-    },
-    {
       "name": "Dan DeWeerd",
-      "number": "775-338-7139",
+      "number": "122-222-2233",
       "id": 6
     },
     {
-      "name": "John Cena",
-      "number": "819-330-8004",
-      "id": 7
-    },
-    {
-      "name": "dan",
-      "number": "123-112-1234",
-      "id": 8
+      "name": "ash",
+      "number": "123-12-24",
+      "id": 10
     }
   ]
 }
