@@ -1,1 +1,13 @@
 GET http://localhost:3001/api/persons
+###
+GET http://localhost:3001/api/persons/300
+###
+DELETE http://localhost:3001/api/persons/485
+###
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Daniel DeWeerd",
+    "number": "775-338-7139"
+}
