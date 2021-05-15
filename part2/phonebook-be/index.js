@@ -1,7 +1,15 @@
 const { response } = require('express');
 const express = require('express');
+var morgan = require('morgan');
+
+morgan.token('body', function (req) { return JSON.stringify(req.body) })
+
 const app = express();
-app.use(express.json())
+
+app.use(express.json());
+app.use(morgan(':method :url :status :response-time ms :body'));
+
+
 const port = 3001;
 
 let persons =
@@ -27,11 +35,12 @@ let persons =
             number: "39-23-6423122"
         },
     ]
-app.get('/', (request, response) => {
+app.get('/', (request, response, next) => {
     response.send('<h1>Phonebook Backend</h1>');
+    next();
 })
 
-app.get('/info', (request, response) => {
+app.get('/info', (request, response, next) => {
     const personsLength = persons.length;
     const date = new Date();
     response.send(`
@@ -39,10 +48,12 @@ app.get('/info', (request, response) => {
     <div>Phonebook has info for ${personsLength} people</div>
     <br />
     <div>${date}</div>`);
+    next();
 })
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons', (request, response, next) => {
     response.send(persons);
+    next();
 })
 
 function getRandomId(min, max) {
@@ -57,14 +68,15 @@ let idExists = (id) => {
     }
 }
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
     const id = Number(request.params.id);
     if (!idExists(id)) {
         return response.status(404).send(`ID: ${id} not found in database`);
     }
     response.send(persons.find(p => p.id === id));
+    next();
 })
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
     let body = request.body;
     console.log(body.name, body.number);
 
@@ -87,15 +99,17 @@ app.post('/api/persons', (request, response) => {
     }
     persons = persons.concat(person);
     response.status(200).send(persons);
+    next();
 })
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
     const id = Number(request.params.id);
     if (!idExists(id)) {
         return response.status(404).send(`ID: ${id} not found in database`);
     }
     persons = persons.filter(p => p.id !== id);
     response.status(204).send(persons);
+    next();
 })
 
 app.listen(port, () => {
