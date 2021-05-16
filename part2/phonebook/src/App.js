@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import './index.css'
 import Record from './components/Record'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import PersonService from './services/Person'
-import './index.css'
 import Notification from './components/Notification'
 
 const App = () => {
@@ -84,10 +84,9 @@ const App = () => {
       PersonService
         .createPerson(newPersonObj)
         .then(returnedNote => {
-          setPersons(persons.concat(returnedNote))
+          setPersons(persons.concat(newPersonObj))
           setName('')
           setPhone('')
-        }).then(() => {
           setMessage(`Added ${newName} to the phonebook`);
           setTimeout(() => { setMessage(null) }, 5000);
         })
