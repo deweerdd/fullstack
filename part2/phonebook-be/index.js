@@ -62,13 +62,24 @@ function getRandomId(min, max) {
     return parseInt(Math.random() * (max - min) + min);
 }
 
+let idExists = (id) => {
+    if (persons.find(p => p.id === id)) {
+        return true
+    } else {
+        return false
+    }
+}
+
 app.get('/api/persons/:id', (request, response, next) => {
     const id = Number(request.params.id);
-    if (!idExists(id)) {
-        return response.status(404).send(`ID: ${id} not found in database`);
+    let exists = idExists(id);
+    if (exists) {
+        response.send(persons.find(p => p.id === id)).catch(Err => console.log(Err));
+        next();
+    } else {
+        response.status(404)
+        next();
     }
-    response.send(persons.find(p => p.id === id));
-    next();
 })
 
 app.post('/api/persons', (request, response, next) => {
