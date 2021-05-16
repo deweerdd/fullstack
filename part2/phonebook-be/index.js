@@ -1,4 +1,3 @@
-const { response } = require('express');
 const express = require('express');
 const cors = require('cors');
 
@@ -13,7 +12,7 @@ app.use(express.json());
 app.use(morgan(':method :url :status :response-time ms :body'));
 
 
-const port = 3001;
+const PORT = process.env.PORT || 3001;
 
 let persons =
     [
@@ -63,14 +62,6 @@ function getRandomId(min, max) {
     return parseInt(Math.random() * (max - min) + min);
 }
 
-let idExists = (id) => {
-    if (persons.find(p => p.id === id)) {
-        return true
-    } else {
-        return false
-    }
-}
-
 app.get('/api/persons/:id', (request, response, next) => {
     const id = Number(request.params.id);
     if (!idExists(id)) {
@@ -79,42 +70,39 @@ app.get('/api/persons/:id', (request, response, next) => {
     response.send(persons.find(p => p.id === id));
     next();
 })
+
 app.post('/api/persons', (request, response, next) => {
     let body = request.body;
-    console.log(body.name, body.number);
-
-    if (body.name === undefined) {
-        return response.status(404).send(`Error: name is ${body.name}`);
-    }
-
-    if (body.number === undefined) {
-        return response.status(404).send(`Error: number is ${body.number}`);
-    }
-
-    if (persons.find(p => p.name === body.name)) {
-        return response.status(500).send(`Error: ${body.name} already exists`);
-    }
-
     let person = {
         id: getRandomId(1, 1000),
         name: body.name,
         number: body.number
     }
-    persons = persons.concat(person);
-    response.status(200).send(persons);
+    console.log(body.name)
+
+    if (person.name === "") {
+        response.status(404).statusMessage(`Error: name is ${person.name}`);
+    }
+
+    if (person.number === "") {
+        response.status(404).statusMessage(`Error: number is ${person.number}`);
+    }
+
+    if (persons.find(p => p.name === person.name)) {
+        return response.status(500).statusMessage(`Error: ${person.name} already exists`);
+    }
+    response.status(200).send(persons.concat(person));
     next();
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
-    const id = Number(request.params.id);
-    if (!idExists(id)) {
-        return response.status(404).send(`ID: ${id} not found in database`);
-    }
+    const id = Number(request.params.id)
     persons = persons.filter(p => p.id !== id);
-    response.status(204).send(persons);
+    console.log(persons)
+    response.status(200).send(persons);
     next();
 })
 
-app.listen(port, () => {
-    console.log(`Backend Started on ${port}`)
+app.listen(PORT, () => {
+    console.log(`Backend Started on ${PORT}`)
 })

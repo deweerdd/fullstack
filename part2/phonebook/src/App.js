@@ -42,12 +42,11 @@ const App = () => {
     : persons.filter(p => p.name.toLowerCase().includes(newSearch.toLowerCase())
     );
 
-  const deletePerson = (id) => {
+  let deletePerson = (id) => {
+    const newList = persons.filter(p => p.id !== id)
     if (window.confirm(`Delete Record ${id}`)) {
-      PersonService.deletePerson(id).then(result => {
-        PersonService.getPersons().then(initialPersons => {
-          setPersons(initialPersons)
-        })
+      PersonService.deletePerson(id).then(response => {
+        setPersons(newList);
       })
     }
   }
@@ -83,8 +82,9 @@ const App = () => {
     } else {
       PersonService
         .createPerson(newPersonObj)
-        .then(returnedNote => {
-          setPersons(persons.concat(newPersonObj))
+        .then(response => {
+          setPersons(response)
+        }).then(response => {
           setName('')
           setPhone('')
           setMessage(`Added ${newName} to the phonebook`);
@@ -101,7 +101,7 @@ const App = () => {
       <PersonForm onSubmit={addNewPersons} newName={newName} newPhone={newPhone} onPersonChange={handlePerson} onPhoneChange={handlePhone} />
       <h2>Numbers</h2>
       {result.map(person =>
-        <Record key={person.name} persons={person} deletePerson={() => deletePerson(person.id)} />
+        <Record key={person.id} persons={person} deletePerson={() => deletePerson(person.id)} />
       )}
     </div>
   )
